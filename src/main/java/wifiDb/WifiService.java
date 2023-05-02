@@ -1,0 +1,185 @@
+package wifiDb;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class WifiService {
+    public void dbInsert(){
+        String url = "jdbc:mariadb://localhost:3306/testdb1";
+        String dbUserId = "root";
+        String dbPassword = "0000";
+        // 넣어줄 와이파이 값 (openAPI)
+        OpenAPI openAPI = new OpenAPI();
+        ArrayList<List<Object>> allWifi = openAPI.getAllWifi();
+
+        try{
+            Class.forName("org.mariadb.jdbc.Driver");
+        }catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+
+        // 변수에 들어갈 값
+        List<Object> x_swifi_inout_door_value = allWifi.get(0);
+        List<Object> x_swifi_instl_floor_value = allWifi.get(1);
+        List<Object> x_swifi_instl_mby_value = allWifi.get(2);
+        List<Object> x_swifi_remars3_value = allWifi.get(3);
+        List<Object> x_swifi_instl_ty_value = allWifi.get(4);
+        List<Object> x_swifi_mgr_no_value = allWifi.get(5);
+        List<Object> x_swifi_wrdofc_value = allWifi.get(6);
+        List<Object> x_swifi_adres1_value = allWifi.get(7);
+        List<Object> x_swifi_adres2_value = allWifi.get(8);
+        List<Object> x_swifi_cmcwr_value = allWifi.get(9);
+        List<Object> work_dttm_value = allWifi.get(10);
+        List<Object> x_swifi_svc_se_value = allWifi.get(11);
+        List<Object> x_swifi_main_nm_value = allWifi.get(12);
+        List<Object> lnt_value = allWifi.get(13);
+        List<Object> x_swifi_cnstc_year_value = allWifi.get(14);
+        List<Object> lat_value = allWifi.get(15);
+        int n = allWifi.get(0).size();
+
+
+        try{
+            connection = DriverManager.getConnection(url, dbUserId, dbPassword);
+            for(int i=0;i<n;i++){
+                String sql = "insert into wifi (x_swifi_inout_door,x_swifi_instl_floor,x_swifi_instl_mby, x_swifi_remars3, x_swifi_instl_ty,x_swifi_mgr_no,x_swifi_wrdofc,x_swifi_adres1, x_swifi_adres2,x_swifi_cmcwr,work_dttm,x_swifi_svc_se,x_swifi_main_nm,lnt,x_swifi_cnstc_year,lat) "+
+                        " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"; // insert하는 쿼리
+
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, (String) x_swifi_inout_door_value.get(i));
+                preparedStatement.setString(2, (String)x_swifi_instl_floor_value.get(i));
+                preparedStatement.setString(3, (String)x_swifi_instl_mby_value.get(i));
+                preparedStatement.setString(4, (String)x_swifi_remars3_value.get(i));
+                preparedStatement.setString(5, (String)x_swifi_instl_ty_value.get(i));
+                preparedStatement.setString(6, (String)x_swifi_mgr_no_value.get(i));
+                preparedStatement.setString(7, (String)x_swifi_wrdofc_value.get(i));
+                preparedStatement.setString(8, (String)x_swifi_adres1_value.get(i));
+                preparedStatement.setString(9, (String)x_swifi_adres2_value.get(i));
+                preparedStatement.setString(10, (String)x_swifi_cmcwr_value.get(i));
+                preparedStatement.setLong(11, Long.valueOf(String.valueOf(work_dttm_value.get(i))));
+                preparedStatement.setString(12, (String)x_swifi_svc_se_value.get(i));
+                preparedStatement.setString(13, (String)x_swifi_main_nm_value.get(i));
+                preparedStatement.setString(14, (String)lnt_value.get(i));
+                preparedStatement.setString(15, (String)x_swifi_cnstc_year_value.get(i));
+                preparedStatement.setString(16, (String)lat_value.get(i));
+
+
+
+                int affected = preparedStatement.executeUpdate();
+
+                if(affected > 0){
+                    System.out.println("저장 성공");
+                }else{
+                    System.out.println("저장 실패");
+                }
+            }
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+
+        }finally {
+            try {
+                if (rs != null && !rs.isClosed()) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (preparedStatement != null && !preparedStatement.isClosed()) {
+                    preparedStatement.close();
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            }
+        }
+    }
+
+    public List<String[]> dbSelect(double lat, double lnt){
+        String url = "jdbc:mariadb://localhost:3306/testdb1";
+        String dbUserId = "root";
+        String dbPassword = "0000";
+
+        List<String[]> result = new ArrayList<String[]>();
+
+        try{
+            Class.forName("org.mariadb.jdbc.Driver");
+        }catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet rs = null;
+
+        try{
+            connection = DriverManager.getConnection(url, dbUserId, dbPassword);
+            statement = connection.createStatement();
+
+            String sql = " select * , ST_DISTANCE_SPHERE(point("+lat +","+lnt +"), POINT(cast(lnt as DOUBLE), cast(lat as DOUBLE ))) AS dist" + // 이거 lat 범위 (-90,90)이라서 순서 어케 되는지 봐야 할듯
+                    " from wifi "+
+                    " order by dist desc limit 20;";
+
+            rs = statement.executeQuery(sql);
+
+            while (rs.next()) {
+                String[] tmp = new String[17];
+                tmp[0] = rs.getString("dist");
+                tmp[1] = rs.getString("x_swifi_mgr_no");
+                tmp[2] = rs.getString("x_swifi_wrdofc");
+                tmp[3] = rs.getString("x_swifi_main_nm");
+                tmp[4] = (rs.getString("x_swifi_adres1"));
+                tmp[5] = (rs.getString("x_swifi_adres2"));
+                tmp[6] = (rs.getString("x_swifi_instl_floor"));
+                tmp[7] = (rs.getString("x_swifi_instl_ty"));
+                tmp[8] = (rs.getString("x_swifi_instl_mby"));
+                tmp[9] = (rs.getString("x_swifi_svc_se"));
+                tmp[10] = (rs.getString("x_swifi_cmcwr"));
+                tmp[11] = (rs.getString("x_swifi_cnstc_year"));
+                tmp[12] = (rs.getString("x_swifi_inout_door"));
+                tmp[13] = (rs.getString("x_swifi_remars3"));
+                tmp[14] = (rs.getString("lat"));
+                tmp[15] = (rs.getString("lnt"));
+                tmp[16] = (rs.getString("work_dttm"));
+
+                result.add(tmp);
+            }
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+
+        }finally {
+            try{
+                if (rs != null && !rs.isClosed()) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            }
+        }
+        return result;
+    }
+
+}
