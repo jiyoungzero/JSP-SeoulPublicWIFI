@@ -1,4 +1,5 @@
 # 서울시 공공 와이파이 OpenAPI를 이용하여 내 주변 와이파이 정보 구하기
+### 🪢 openAPI url : https://data.seoul.go.kr/dataList/OA-20883/S/1/datasetView.do
 
 ## 구현한 기능 
 1. 서울시 공공 와이파이 OpenAPI를 가져와 MariaDB에 저장
