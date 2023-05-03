@@ -49,17 +49,6 @@
         }
         return result;
     }
-
-    // function submitLocation() {
-    //     let lat = $("#latValue").val();
-    //     let lnt = $("#lntValue").val();
-    //     location.href = "index.jsp?lat="+lat+"&lnt="+lnt;
-    //     // var form = document.submit;
-    //     // form.action = "index.jsp?lat="+lat+"&lnt="+lnt;
-    //     // form.submit();
-    //
-    // }
-
 </script>
 
 

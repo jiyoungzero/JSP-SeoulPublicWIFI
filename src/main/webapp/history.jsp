@@ -6,6 +6,56 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <!--jQuery 불러오기-->
+<script>
+    function getLocation(){
+        // 현재 위치 가져오기
+        navigator.geolocation.getCurrentPosition(getSuccess, getError);
+        // 가져오기 성공
+        function getSuccess(position) {
+            let inputlat = document.getElementById("latValue");
+            let inputlnt = document.getElementById("lntValue");
+
+
+            const lat = position.coords.latitude;
+
+            const lnt = position.coords.longitude;
+
+            document.getElementById("latValue").value = lat;
+            document.getElementById("lntValue").value = lnt;
+        }
+
+        // 가지오기 실패(거부)
+        function getError() {
+            alert('Geolocation Error');
+        }
+    }
+
+    function submitLocation(){
+        // 현재 위치 가져오기
+        navigator.geolocation.getCurrentPosition(getSuccess, getError);
+        result = []
+        // 가져오기 성공
+        function getSuccess(position) {
+            let inputlat = document.getElementById("latValue");
+            let inputlnt = document.getElementById("lntValue");
+
+
+            const lat = position.coords.latitude;
+            result.push(lat);
+
+            const lnt = position.coords.longitude;
+            result.push(lnt);
+
+        }
+
+        // 가지오기 실패(거부)
+        function getError() {
+            alert('Geolocation Error');
+        }
+        return result;
+    }
+</script>
 <head>
     <style>
         #hitory_list {
@@ -47,7 +97,7 @@
     <input onclick="getLocation()" type="button" value="내 위치 가져오기">
     <input type="submit" value="근처 WIFI 정보 열기">
 </form>
-
+<br>
 <table id="hitory_list">
     <tr id="firstRow">
         <th>ID</th>

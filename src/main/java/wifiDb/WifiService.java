@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,29 +49,38 @@ public class WifiService {
         int n = allWifi.get(0).size();
 
 
-        try{
+        try{//work_dttm_value.get(i)
+
+
             connection = DriverManager.getConnection(url, dbUserId, dbPassword);
             for(int i=0;i<n;i++){
                 String sql = "insert into wifi (x_swifi_inout_door,x_swifi_instl_floor,x_swifi_instl_mby, x_swifi_remars3, x_swifi_instl_ty,x_swifi_mgr_no,x_swifi_wrdofc,x_swifi_adres1, x_swifi_adres2,x_swifi_cmcwr,work_dttm,x_swifi_svc_se,x_swifi_main_nm,lnt,x_swifi_cnstc_year,lat) "+
                         " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"; // insert하는 쿼리
 
+                long ldata = Long.parseLong(String.valueOf(work_dttm_value.get(i)));
+                String dateFormatStringTime;
+                Date date = new Date(ldata);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                dateFormatStringTime = dateFormat.format(date);
+
+
                 preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, (String) x_swifi_inout_door_value.get(i));
-                preparedStatement.setString(2, (String)x_swifi_instl_floor_value.get(i));
-                preparedStatement.setString(3, (String)x_swifi_instl_mby_value.get(i));
-                preparedStatement.setString(4, (String)x_swifi_remars3_value.get(i));
-                preparedStatement.setString(5, (String)x_swifi_instl_ty_value.get(i));
-                preparedStatement.setString(6, (String)x_swifi_mgr_no_value.get(i));
-                preparedStatement.setString(7, (String)x_swifi_wrdofc_value.get(i));
-                preparedStatement.setString(8, (String)x_swifi_adres1_value.get(i));
-                preparedStatement.setString(9, (String)x_swifi_adres2_value.get(i));
-                preparedStatement.setString(10, (String)x_swifi_cmcwr_value.get(i));
-                preparedStatement.setLong(11, Long.valueOf(String.valueOf(work_dttm_value.get(i))));
-                preparedStatement.setString(12, (String)x_swifi_svc_se_value.get(i));
-                preparedStatement.setString(13, (String)x_swifi_main_nm_value.get(i));
-                preparedStatement.setString(14, (String)lnt_value.get(i));
-                preparedStatement.setString(15, (String)x_swifi_cnstc_year_value.get(i));
-                preparedStatement.setString(16, (String)lat_value.get(i));
+                preparedStatement.setObject(1, x_swifi_inout_door_value.get(i));
+                preparedStatement.setObject(2, String.valueOf(x_swifi_instl_floor_value.get(i)));
+                preparedStatement.setObject(3, String.valueOf(x_swifi_instl_mby_value.get(i)));
+                preparedStatement.setObject(4, String.valueOf(x_swifi_remars3_value.get(i)));
+                preparedStatement.setObject(5, String.valueOf(x_swifi_instl_ty_value.get(i)));
+                preparedStatement.setObject(6, String.valueOf(x_swifi_mgr_no_value.get(i)));
+                preparedStatement.setObject(7, String.valueOf(x_swifi_wrdofc_value.get(i)));
+                preparedStatement.setObject(8, String.valueOf(x_swifi_adres1_value.get(i)));
+                preparedStatement.setObject(9, String.valueOf(x_swifi_adres2_value.get(i)));
+                preparedStatement.setObject(10,String.valueOf(x_swifi_cmcwr_value.get(i)));
+                preparedStatement.setString(11, dateFormatStringTime);
+                preparedStatement.setObject(12, String.valueOf(x_swifi_svc_se_value.get(i)));
+                preparedStatement.setObject(13, String.valueOf(x_swifi_main_nm_value.get(i)));
+                preparedStatement.setDouble(14, Double.parseDouble(String.valueOf(lnt_value.get(i))));
+                preparedStatement.setObject(15, String.valueOf(x_swifi_cnstc_year_value.get(i)));
+                preparedStatement.setDouble(16, Double.parseDouble(String.valueOf(lat_value.get(i))));
 
 
 
@@ -128,9 +138,10 @@ public class WifiService {
             connection = DriverManager.getConnection(url, dbUserId, dbPassword);
             statement = connection.createStatement();
 
-            String sql = " select * , ST_DISTANCE_SPHERE(point("+lat +","+lnt +"), POINT(cast(lnt as DOUBLE), cast(lat as DOUBLE ))) AS dist" + // 이거 lat 범위 (-90,90)이라서 순서 어케 되는지 봐야 할듯
+            String sql = " select * , ST_DISTANCE_SPHERE(point("+lat +","+lnt +"), POINT(lnt, lat)) AS dist" +
                     " from wifi "+
-                    " order by dist desc limit 20;";
+                    " where -90 <= lat and lat <= 90 "+
+                    " order by dist limit 20;";
 
             rs = statement.executeQuery(sql);
 

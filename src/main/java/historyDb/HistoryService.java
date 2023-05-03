@@ -9,7 +9,7 @@ import java.util.List;
 public class HistoryService {
 
     public void historydbInsert(double lat, double lnt, String date){
-        String url = "jdbc:mariadb://localhost:3306/historydb";
+        String url = "jdbc:mariadb://localhost:3306/testdb1";
         String dbUserId = "root";
         String dbPassword = "0000";
 
@@ -69,7 +69,7 @@ public class HistoryService {
     }
 
     public List<Object[]> historydbList(){
-        String url = "jdbc:mariadb://localhost:3306/historydb";
+        String url = "jdbc:mariadb://localhost:3306/testdb1";
         String dbUserId = "root";
         String dbPassword = "0000";
 
@@ -136,7 +136,7 @@ public class HistoryService {
     }
 
     public void historydbDelete(int id){
-        String url = "jdbc:mariadb://localhost:3306/historydb";
+        String url = "jdbc:mariadb://localhost:3306/testdb1";
         String dbUserId = "root";
         String dbPassword = "0000";
 

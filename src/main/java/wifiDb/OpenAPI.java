@@ -38,7 +38,7 @@ public class OpenAPI { // 오픈 api json파일을 읽어 자바 배열로 변�
 
 
         try {
-            JsonObject allWifi = gson.fromJson(new FileReader("C://Users//JYLEE//Desktop//zerobase_java//Mission1_v3//src//wifi.json"), JsonObject.class);
+            JsonObject allWifi = gson.fromJson(new FileReader("C://Users//JYLEE//Desktop//Mission1_이지영//src//wifi.json"), JsonObject.class);
 
             JsonArray dataArray = allWifi.getAsJsonArray("DATA");
 
@@ -46,22 +46,22 @@ public class OpenAPI { // 오픈 api json파일을 읽어 자바 배열로 변�
             JSONParser jsonParser = new JSONParser();
             for(int i=0;i<dataArray.size();i++){
                 JsonObject data = (JsonObject) dataArray.get(i);
-                x_swifi_inout_door_list.add(data.get("x_swifi_inout_door").toString());
-                x_swifi_instl_floor_list.add(data.get("x_swifi_instl_floor").toString());
-                x_swifi_instl_mby_list.add(data.get("x_swifi_instl_mby").toString());
-                x_swifi_remars3_list.add(data.get("x_swifi_remars3").toString());
-                x_swifi_instl_ty_list.add(data.get("x_swifi_instl_ty").toString());
-                x_swifi_mgr_no_list.add(data.get("x_swifi_mgr_no").toString());
-                x_swifi_wrdofc_list.add(data.get("x_swifi_wrdofc").toString());
-                x_swifi_adres1_list.add(data.get("x_swifi_adres1").toString());
-                x_swifi_adres2_list.add(data.get("x_swifi_adres2").toString());
-                x_swifi_cmcwr_list.add(data.get("x_swifi_cmcwr").toString());
-                work_dttm_list.add(data.get("work_dttm").getAsLong());
-                x_swifi_svc_se_list.add(data.get("x_swifi_svc_se").toString());
-                x_swifi_main_nm_list.add(data.get("x_swifi_main_nm").toString());
-                lnt_list.add(data.get("lnt").toString());
-                x_swifi_cnstc_year_list.add(data.get("x_swifi_cnstc_year").toString());
-                lat_list.add(data.get("lat").toString());
+                x_swifi_inout_door_list.add(data.get("x_swifi_inout_door").getAsString());
+                x_swifi_instl_floor_list.add(data.get("x_swifi_instl_floor").getAsString());
+                x_swifi_instl_mby_list.add(data.get("x_swifi_instl_mby").getAsString());
+                x_swifi_remars3_list.add(data.get("x_swifi_remars3").getAsString());
+                x_swifi_instl_ty_list.add(data.get("x_swifi_instl_ty").getAsString());
+                x_swifi_mgr_no_list.add(data.get("x_swifi_mgr_no").getAsString());
+                x_swifi_wrdofc_list.add(data.get("x_swifi_wrdofc").getAsString());
+                x_swifi_adres1_list.add(data.get("x_swifi_adres1").getAsString());
+                x_swifi_adres2_list.add(data.get("x_swifi_adres2").getAsString());
+                x_swifi_cmcwr_list.add(data.get("x_swifi_cmcwr").getAsString());
+                work_dttm_list.add(data.get("work_dttm").getAsString());
+                x_swifi_svc_se_list.add(data.get("x_swifi_svc_se").getAsString());
+                x_swifi_main_nm_list.add(data.get("x_swifi_main_nm").getAsString());
+                lnt_list.add(data.get("lat").getAsDouble());
+                x_swifi_cnstc_year_list.add(data.get("x_swifi_cnstc_year").getAsString());
+                lat_list.add(data.get("lnt").getAsDouble());
 
             }
         } catch (FileNotFoundException e) {
