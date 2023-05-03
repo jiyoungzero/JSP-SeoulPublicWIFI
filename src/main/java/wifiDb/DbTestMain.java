@@ -2,11 +2,11 @@ package wifiDb;
 public class DbTestMain {
     public static void main(String[] args) {
         WifiService wifiService = new WifiService();
-//        // dbInsert
+        // dbInsert
         wifiService.dbInsert();
 
-        // dbSelect
-        //wifiService.dbSelect(127.0710272,37.6635392);
+        // dbSelect -> 현재 위치
+        wifiService.dbSelect(127.0710272,37.6635392);
 
         // dbDelect
 

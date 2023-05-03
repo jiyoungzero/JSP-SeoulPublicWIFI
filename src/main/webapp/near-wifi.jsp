@@ -83,6 +83,7 @@
     </style>
     <title>와이파이 정보 구하기</title>
 </head>
+
 <body>
 
 <h2>와이파이 정보 구하기</h2>
@@ -129,11 +130,10 @@
             double lat = Double.parseDouble(String.valueOf(request.getParameter("lat")));
             double lnt = Double.parseDouble(String.valueOf(request.getParameter("lnt")));
             // 조회 일자 받기
-            System.out.println(strDate);
+            //System.out.println(strDate);
             // 히스토리 db에 insert
             HistoryService historyService = new HistoryService();
             historyService.historydbInsert(lat,lnt, strDate);
-
 
             WifiService wifiService = new WifiService();
             List<String[]> nearWifi = wifiService.dbSelect(lnt, lat);

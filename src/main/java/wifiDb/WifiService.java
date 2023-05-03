@@ -11,7 +11,7 @@ import java.util.List;
 
 public class WifiService {
     public void dbInsert(){
-        String url = "jdbc:mariadb://localhost:3306/testdb1";
+        String url = "jdbc:mariadb://localhost:3306/testdb1?useUnicode=true&characterEncoding=euckr&serverTimezone=UTC&useSSL=false";
         String dbUserId = "root";
         String dbPassword = "0000";
         // 넣어줄 와이파이 값 (openAPI)
@@ -49,8 +49,7 @@ public class WifiService {
         int n = allWifi.get(0).size();
 
 
-        try{//work_dttm_value.get(i)
-
+        try{
 
             connection = DriverManager.getConnection(url, dbUserId, dbPassword);
             for(int i=0;i<n;i++){
@@ -65,21 +64,21 @@ public class WifiService {
 
 
                 preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setObject(1, x_swifi_inout_door_value.get(i));
-                preparedStatement.setObject(2, String.valueOf(x_swifi_instl_floor_value.get(i)));
-                preparedStatement.setObject(3, String.valueOf(x_swifi_instl_mby_value.get(i)));
-                preparedStatement.setObject(4, String.valueOf(x_swifi_remars3_value.get(i)));
-                preparedStatement.setObject(5, String.valueOf(x_swifi_instl_ty_value.get(i)));
-                preparedStatement.setObject(6, String.valueOf(x_swifi_mgr_no_value.get(i)));
-                preparedStatement.setObject(7, String.valueOf(x_swifi_wrdofc_value.get(i)));
-                preparedStatement.setObject(8, String.valueOf(x_swifi_adres1_value.get(i)));
-                preparedStatement.setObject(9, String.valueOf(x_swifi_adres2_value.get(i)));
-                preparedStatement.setObject(10,String.valueOf(x_swifi_cmcwr_value.get(i)));
+                preparedStatement.setString(1, String.valueOf(x_swifi_inout_door_value.get(i)));
+                preparedStatement.setString(2, String.valueOf(x_swifi_instl_floor_value.get(i)));
+                preparedStatement.setString(3, String.valueOf(x_swifi_instl_mby_value.get(i)));
+                preparedStatement.setString(4, String.valueOf(x_swifi_remars3_value.get(i)));
+                preparedStatement.setString(5, String.valueOf(x_swifi_instl_ty_value.get(i)));
+                preparedStatement.setString(6, String.valueOf(x_swifi_mgr_no_value.get(i)));
+                preparedStatement.setString(7, String.valueOf(x_swifi_wrdofc_value.get(i)));
+                preparedStatement.setString(8, String.valueOf(x_swifi_adres1_value.get(i)));
+                preparedStatement.setString(9, String.valueOf(x_swifi_adres2_value.get(i)));
+                preparedStatement.setString(10,String.valueOf(x_swifi_cmcwr_value.get(i)));
                 preparedStatement.setString(11, dateFormatStringTime);
-                preparedStatement.setObject(12, String.valueOf(x_swifi_svc_se_value.get(i)));
-                preparedStatement.setObject(13, String.valueOf(x_swifi_main_nm_value.get(i)));
+                preparedStatement.setString(12, String.valueOf(x_swifi_svc_se_value.get(i)));
+                preparedStatement.setString(13, String.valueOf(x_swifi_main_nm_value.get(i)));
                 preparedStatement.setDouble(14, Double.parseDouble(String.valueOf(lnt_value.get(i))));
-                preparedStatement.setObject(15, String.valueOf(x_swifi_cnstc_year_value.get(i)));
+                preparedStatement.setString(15, String.valueOf(x_swifi_cnstc_year_value.get(i)));
                 preparedStatement.setDouble(16, Double.parseDouble(String.valueOf(lat_value.get(i))));
 
 

@@ -8,13 +8,13 @@ public class DbTestMain2 {
         HistoryService historyService = new HistoryService();
 
         // dbInsert
-//        historyService.historydbInsert(37.6635392,127.0710272, "20230503");
+        //historyService.historydbInsert(37.6635392,127.0710272, "20230503");
 
 
         // dbSelect
         //historyService.historydbList();
 
-        // dbDelect
+        // dbDelect (id = 2 delete)
         //historyService.historydbDelete(2);
 
 

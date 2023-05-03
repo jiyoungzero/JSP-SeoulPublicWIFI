@@ -114,7 +114,7 @@
                 historyService.historydbDelete(id);
                 List<Object[]> history = historyService.historydbList();
                 for(Object[] r:history){
-             %>
+      %>
   <tr>
     <td><%=r[0]%></td>
     <td><%=r[1]%></td>
