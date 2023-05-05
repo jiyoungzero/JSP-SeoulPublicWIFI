@@ -18,7 +18,7 @@
     request.setCharacterEncoding("utf-8");
     // 와이파이 정보 insert
     WifiService wifiService = new WifiService();
-    wifiService.dbInsert();
+    //wifiService.dbInsert();
     // 와이파이 개수 구하기
     OpenAPI openAPI = new OpenAPI();
     ArrayList<List<Object>> allWifi = openAPI.getAllWifi();

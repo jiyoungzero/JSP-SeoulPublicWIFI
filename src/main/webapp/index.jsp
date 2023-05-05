@@ -15,7 +15,6 @@
 
 
             const lat = position.coords.latitude;
-
             const lnt = position.coords.longitude;
 
             document.getElementById("latValue").value = lat;
@@ -105,7 +104,7 @@
 <a href="history.jsp">위치 히스토리 목록 |</a>
 <a href="load-wifi.jsp">Open API 와이파이 정보 가져오기</a> <br>
 
-<form name="pageForm"  action="near-wifi.jsp" >
+<form action="near-wifi.jsp" >
     LAT : <input type="text" id = "latValue" name="lat" value="" >
     LNT : <input type="text" id = "lntValue" name="lnt" value="">
 

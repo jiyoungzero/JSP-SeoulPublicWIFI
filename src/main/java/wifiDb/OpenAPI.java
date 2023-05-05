@@ -37,8 +37,8 @@ public class OpenAPI { // 오픈 api json파일을 읽어 자바 배열로 변�
         List lat_list = new ArrayList<String>();
 
 
-        try {
-            JsonObject allWifi = gson.fromJson(new FileReader("C://Users//JYLEE//Desktop//Mission1_소스코드_이지영//src//wifi.json"), JsonObject.class);
+        try {//C:\Users\JYLEE\Desktop\zerobase_java\Mission1_소스코드_이지영\src\wifi.json
+            JsonObject allWifi = gson.fromJson(new FileReader("C://Users//JYLEE//Desktop//zerobase_java//Mission1_소스코드_이지영//src//wifi.json"), JsonObject.class);
 
             JsonArray dataArray = allWifi.getAsJsonArray("DATA");
 
